@@ -24,13 +24,23 @@ $result = $pdo->query($sql_sport);
 $sql_area = "SELECT area_id, areas.name FROM areas WHERE city_id = 14";
 $result_area = $pdo->query($sql_area);
 
-// 活動地址
-$sql_address = "SELECT court.id, court.address FROM court_info WHERE court.id=$id" ;
-$result_address = $pdo->query($sql_area);
+// 根據 activity_list 表的 court_id 連接到 court_info 表獲取地址
+$sql_address = "SELECT court.address 
+                FROM court_info AS court
+                JOIN activity_list AS activity ON court.id = activity.court_id
+                WHERE activity.id = :id";
+$stmt_address = $pdo->prepare($sql_address);
+$stmt_address->execute(['id' => $id]);
+$address = $stmt_address->fetchColumn(); // 獲取地址
 
-// 開團者
-$sql_address = "SELECT members.id, members.name FROM members WHERE members.id= activity_list.founder_id" ;
-$result_address = $pdo->query($sql_area);
+// 根據 activity_list 表的 founder_id 連接到 members 表獲取開團者名稱
+$sql_founder = "SELECT members.name 
+                FROM members 
+                JOIN activity_list ON members.id = activity_list.founder_id
+                WHERE activity_list.id = :id";
+$stmt_founder = $pdo->prepare($sql_founder);
+$stmt_founder->execute(['id' => $id]);
+$founder_name = $stmt_founder->fetchColumn(); // 獲取名稱
 
 $r = $pdo->query($sql_list)->fetch();
 if (empty($r)) {
@@ -136,7 +146,7 @@ if (empty($r)) {
             <div class="mb-3">
               <label for="address" class="form-label">地點名稱</label>
               <input type="text" class="form-control" id="address" name="address"
-                value="<?= $r['address'] ?>">
+              value="<?php echo htmlspecialchars($address); ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -169,7 +179,7 @@ if (empty($r)) {
             <div class="mb-3">
               <label for="founder_id" class="form-label">開團者</label>
               <input type="text" class="form-control" id="founder_id" name="founder_id"
-                value="<?= $r['members.name'] ?>">
+                value="<?php echo htmlspecialchars($founder_name); ?>">
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">修改</button>
