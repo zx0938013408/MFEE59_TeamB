@@ -160,4 +160,8 @@
 * [下一天：修正 commit 過的版本歷史紀錄 Part 2 (revert)](20.md)
 
 -------
-
+忽略的檔案
+config.php
+db-connect.php
+init.php
+admin.php
