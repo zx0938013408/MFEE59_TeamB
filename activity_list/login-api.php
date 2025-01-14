@@ -19,7 +19,7 @@ $email = trim($_POST["email"]);
 $password = trim($_POST["password"]);
 
 # 1. 先確認帳號是否正確
-$sql = "SELECT * FROM member WHERE email=?";
+$sql = "SELECT * FROM admins WHERE email=?";
 
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$email]);
@@ -32,7 +32,7 @@ if (empty($row)) {
   exit;
 }
 
-if(! password_verify($password, $row['password_hash'])){
+if( $password !== $row['password']){
   $output['code'] = 420;
   echo json_encode($output);
   exit;
@@ -41,9 +41,9 @@ if(! password_verify($password, $row['password_hash'])){
 # 帳密都是對的，把狀態存到 session
 
 $_SESSION['admin'] = [
-  'id' => $row['member_id'],
+  'id' => $row['id'],
   'email'=> $email,
-  'nickname' => $row['nickname'],
+  'nickname' => $row['name'],
 ];
 $output['success'] = true;
 
