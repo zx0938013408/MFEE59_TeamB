@@ -19,8 +19,6 @@ require __DIR__.'/../parts/init.php'?>
                   <li class="nav-item">
                     <a class="nav-link <?= $pageName=='add' ?'active' : '' ?>" href="add.php">新增管理員</a>
                   </li>
-           
-               
                 </ul>
               </div>
             </div>

@@ -125,7 +125,7 @@ if ($totalRows > 0) {
                                 <td><?= $r['email'] ?></td>
                                 <td><?= $r['password'] ?></td>
                                 <td><a href="edit.php?id=<?= $r['id'] ?>">
-                  <i class="fa-solid fa-pen-to-square"></i>
+                <i class="fa-solid fa-pen-to-square"></i>
                 </a></td>
 
 
