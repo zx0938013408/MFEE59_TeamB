@@ -139,7 +139,7 @@ if ($totalRows > 0) {
     </div>
 </div>
 
-<?php include __DIR__ . '/../parts/html-script.php' ?>
+<?php include __DIR__ . '/../parts/html-scripts.php' ?>
 <script>
     const deleteOne = id =>{
         if (confirm(`是否要刪除編號為 ${id} 的資料？`)){
