@@ -5,8 +5,8 @@ $pageName = "login";
 
 # TODO: 判斷管理者已經登入, 跳到首頁
 ?>
-<?php include __DIR__ . '/../parts/html_head.php' ?>
-<?php include __DIR__ . '/../parts/html_navbar.php' ?>
+<?php include __DIR__ . '/../parts/html-head.php' ?>
+<?php include __DIR__ . '/../parts/html-navbar.php' ?>
 <style>
   form .mb-3 .form-text {
     display: none;
@@ -69,7 +69,7 @@ $pageName = "login";
     </div>
   </div>
 </div>
-<?php include __DIR__ . '/../parts/html_scripts.php' ?>
+<?php include __DIR__ . '/../parts/html-scripts.php' ?>
 <script>
   const emailField = document.querySelector('#email');
   const myModal = new bootstrap.Modal('#exampleModal');
@@ -96,7 +96,7 @@ $pageName = "login";
     }
 
     if (isPass) {
-      const fd = new FormData(document.forms[0]);
+      const fd = new FormData(document.forms[1]);
 
       fetch(`login_api.php`, {
           method: 'POST',
@@ -116,4 +116,4 @@ $pageName = "login";
 
   }
 </script>
-<?php include __DIR__ . '/../parts/html_tail.php' ?>
+<?php include __DIR__ . '/../parts/html-tail.php' ?>

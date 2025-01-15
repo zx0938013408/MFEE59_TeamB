@@ -3,25 +3,9 @@
 // require __DIR__ . '/../parts/admin_required.php';
 
 require __DIR__ . '/../parts/init.php';
-$title = "會員修改";
-$pageName = "edit";
+$title = "新增通訊錄";
+$pageName = "add-upload";
 
-# 取得指定的 PK
-$id = empty($_GET['id']) ? 0 : intval($_GET['id']);
-
-if (empty($id)) {
-    header('Location: list.php');
-    exit;
-}
-
-# 讀取該筆資料
-$sql = "SELECT * FROM members WHERE id=$id";
-$r = $pdo->query($sql)->fetch();
-if (empty($r)) {
-    # 如果沒有對應的資料, 就跳走
-    header('Location: list.php');
-    exit;
-}
 
 ?>
 <?php include __DIR__ . '/../parts/html-head.php' ?>
@@ -47,82 +31,53 @@ if (empty($r)) {
             <div class="card">
 
                 <div class="card-body">
-                    <h5 class="card-title">修改會員資料</h5>
+                    <h5 class="card-title">新增基本資料</h5>
                     <form onsubmit="sendData(event)">
-                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
                         <div class="mb-3">
-                            <label for="name" class="form-label">編號</label>
-                            <input type="text" class="form-control" disabled
-                                value="<?= $r['id'] ?>">
+                            <img src="" alt="" class="avatar" width="200px">
+                            <input type="hidden" name="avatar" value="">
+                            <!-- 表單裡面 button 如果沒有設定 type 會視為 submit button -->
+                            <button type="button"
+                                class="btn btn-warning" onclick="document.upload_form.avatar.click()">上傳大頭貼</button>
                         </div>
-
+                        <!-- 球類喜好 -->
                         <!-- <div class="mb-3">
-                            <label for="photo" class="form-label">大頭貼</label>
-                          
-                                <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
-                        </div> -->
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">姓名 **</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                value="<?= $r['name'] ?>">
-                            <div class="form-text"></div>
-                        </div>
-
+              <label for="name" class="form-label">姓名 **</label>
+              <input type="text" class="form-control" id="name" name="name">
+              <div class="form-text"></div>
+            </div> -->
                         <div class="mb-3">
                             <label for="gender" class="form-label">性別</label><br>
                             <select id="gender" name="gender" required>
                                 <option value="" disabled selected>請選擇性別</option>
-                                <option value="男" <?= $r['gender'] === '男' ? 'selected' : '' ?>>男</option>
-                                <option value="女" <?= $r['gender'] === '女' ? 'selected' : '' ?>>女</option>
-                                <option value="其他" <?= $r['gender'] === '其他' ? 'selected' : '' ?>>其他</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                                <option value="其他">其他</option>
                             </select>
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="favorite_sport" class="form-label">球類愛好</label><br>
-
-                            <select id="favorite_sport" name="favorite_sport" required>
-                                <option value="" disabled selected>請選擇球類</option>
-                                <option value="籃球" <?= $r['favorite_sport'] === '籃球' ? 'selected' : '' ?>>籃球</option>
-                                <option value="羽球" <?= $r['favorite_sport'] === '羽球' ? 'selected' : '' ?>>羽球</option>
-                                <option value="排球" <?= $r['favorite_sport'] === '排球' ? 'selected' : '' ?>>排球</option>
-                            </select>
-
-
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">電子郵件</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                value="<?= $r['email'] ?>">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">手機</label>
-                            <input type="text" class="form-control" id="phone" name="phone" pattern="09\d{8}"
-                                value="<?= $r['phone'] ?>">
-                            <div class="form-text"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="birthday_date" class="form-label">生日</label>
-                            <input type="date" class="form-control" id="birthday_date" name="birthday_date"
-                                value="<?= $r['birthday_date'] ?>">
+                            <input type="date" class="form-control" id="birthday_date" name="birthday_date">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">手機</label>
+                            <input type="text" class="form-control" id="phone" name="phone" pattern="09\d{8}">
+                            <div class="form-text"></div>
                         </div>
 
                         <div class="mb-3">
                             <label for="address" class="form-label">地址</label>
                             <textarea class="form-control"
-                                id="address" name="address"><?= $r['address'] ?></textarea>
+                                id="address" name="address"></textarea>
                         </div>
-
-
-
-                        <button type="submit" class="btn btn-primary">修改</button>
+                        <button type="submit" class="btn btn-primary">新增</button>
                     </form>
 
+                    <form name="upload_form" hidden>
+                        <input type="file" name="avatar" accept="image/jpeg,image/png" />
+                    </form>
                 </div>
             </div>
         </div>
@@ -130,16 +85,16 @@ if (empty($r)) {
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">編輯結果</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">新增結果</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-success" role="alert">
-                    資料編輯成功
+                    資料新增成功
                 </div>
             </div>
             <div class="modal-footer">
@@ -153,7 +108,6 @@ if (empty($r)) {
 <script>
     const nameField = document.querySelector('#name');
     const emailField = document.querySelector('#email');
-
     const myModal = new bootstrap.Modal('#exampleModal');
 
     function validateEmail(email) {
@@ -182,19 +136,21 @@ if (empty($r)) {
             emailField.nextElementSibling.innerHTML = "請填寫正確的 Email";
             emailField.closest('.mb-3').classList.add('error');
         }
+
         if (isPass) {
             const fd = new FormData(document.forms[0]);
 
-            fetch(`edit_api.php`, {
+            fetch(`add-upload-api.php`, {
                     method: 'POST',
                     body: fd
                 }).then(r => r.json())
                 .then(obj => {
                     console.log(obj);
+                    if (!obj.success && obj.error) {
+                        alert(obj.error)
+                    }
                     if (obj.success) {
                         myModal.show(); // 呈現 modal
-                    } else {
-                        alert('資料沒有修改');
                     }
 
                 }).catch(console.warn);
@@ -202,5 +158,26 @@ if (empty($r)) {
 
 
     }
+
+
+    // ---------------- 做上傳處理 ---------------------------
+    const avatar = document.upload_form.avatar; // 取得上傳的欄位
+
+    avatar.onchange = (e) => {
+        const fd = new FormData(document.upload_form);
+
+        fetch("./../practices/upload-avatar.php", {
+                method: "POST",
+                body: fd,
+            })
+            .then((r) => r.json())
+            .then((obj) => {
+                console.log(obj);
+                const myImg = document.querySelector('img.avatar');
+                myImg.src = `./../uploads/${obj.file}`;
+                document.forms[0].avatar.value = obj.file;
+            })
+            .catch(console.warn);
+    };
 </script>
 <?php include __DIR__ . '/../parts/html-tail.php' ?>
