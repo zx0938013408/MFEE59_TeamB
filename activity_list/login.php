@@ -22,13 +22,14 @@ $pageName = "login";
     color: red;
   }
 </style>
-<div class="container">
+<div class="container m-auto">
   <div class="row">
+    <div class="col-3"></div>
     <div class="col-6">
       <div class="card">
 
         <div class="card-body">
-          <h5 class="card-title">會員登入</h5>
+          <h5 class="card-title">管理員登入</h5>
           <form onsubmit="sendData(event)">
 
             <div class="mb-3">
@@ -49,6 +50,7 @@ $pageName = "login";
         </div>
       </div>
     </div>
+    <div class="col-3"></div>
   </div>
 </div>
 
@@ -73,7 +75,6 @@ $pageName = "login";
 </div>
 <?php include __DIR__ . '/../parts/html-scripts.php' ?>
 <script>
-
   const emailField = document.querySelector('#email');
   const myModal = new bootstrap.Modal('#exampleModal');
 
@@ -98,7 +99,7 @@ $pageName = "login";
       emailField.closest('.mb-3').classList.add('error');
     }
     console.log(emailField.value);
-    
+
 
     if (isPass) {
       const fd = new FormData(document.forms[1]);
@@ -112,8 +113,8 @@ $pageName = "login";
           console.log(obj);
           if (!obj.success) {
             myModal.show(); // 呈現 modal
-          }else{
-            location.href="index_.php";
+          } else {
+            location.href = "index_.php";
           }
         }).catch(console.warn);
     }

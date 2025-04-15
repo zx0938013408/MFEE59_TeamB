@@ -11,22 +11,22 @@ $output = [
 
 
 $sql = "UPDATE `activity_list` SET 
-`activity_name`=?,
-`sport_name`=?,
-`area_name`=?,
-`address`=?,
-`activity_time`=?,
-`deadline`=?,
-`payment`=?,
-`need_num`=?,
-`introduction`=?,
-`name`=?
-WHERE `id`=? ";
+`activity_name` = ?,
+    `sport_type_id` = ?,
+    `area_id` = ?,
+    `activity_time` = ?,
+    `deadline` = ?,
+    `payment` = ?,
+    `need_num` = ?,
+    `introduction` = ?
+WHERE `id` = ?";
 
-# ****** TODO : 欄位檢查 ******
+$sql_court_info = "UPDATE `court_info` SET 
+    `address` = ?
+WHERE `id`  = (
+    SELECT `court_id` FROM `activity_list` WHERE `id` = ?)";
 
 # *** 處裡日期
-
 if(empty($_POST['activity_time'])){
   $activity_time = null ;
 }else{
@@ -54,15 +54,19 @@ if(empty($_POST['deadline'])){
 $stmt = $pdo->prepare($sql);
 $stmt->execute([
   $_POST['activity_name'],
-  $_POST['sport_name'],
-  $_POST['area_name'],
+        $_POST['sport_type_id'],
+        $_POST['area_id'],
+        $activity_time,
+        $deadline,
+        $_POST['payment'],
+        $_POST['need_num'],
+        $_POST['introduction'],
+        $_POST['id']
+]);
+
+$stmt_court_info = $pdo->prepare($sql_court_info);
+$stmt_court_info->execute([
   $_POST['address'],
-  $activity_time,
-  $deadline,
-  $_POST['payment'],
-  $_POST['need_num'],
-  $_POST['introduction'],
-  $_POST['name'],
   $_POST['id']
 ]);
 

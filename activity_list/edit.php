@@ -67,11 +67,10 @@ if (empty($r)) {
     color: red;
   }
 </style>
-<div class="container">
+<div class="container mt-3">
   <div class="row">
-    <div class="col-6">
+    <div class="col-12">
       <div class="card">
-
         <div class="card-body">
           <h5 class="card-title">修改活動內容</h5>
           <form onsubmit="sendData(event)">
@@ -87,66 +86,66 @@ if (empty($r)) {
                 value="<?= $r['activity_name'] ?>">
               <div class="form-text"></div>
             </div>
-                        <!-- 下拉式選單: 拉運動類型 -->
-                        <div class="mb-3">
-                            <label for="sport_type_id" class="form-label">運動類型</label>
-                            <select name="sport_type_id" id="sport_type_id" class="form-select" aria-label="Default select example">
-                                <option selected value="">--請選擇--</option>
-                                <?php
-                                try {
-                                    // 檢查查詢是否返回結果
-                                    if ($result->rowCount() > 0) {
-                                        // 輸出每一行資料
-                                        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                                            echo '<option value="' . $row['id'] . '">' . htmlspecialchars($row['sport_name']) . '</option>';
-                                        }
-                                    } else {
-                                        // 若無資料，顯示無可用選項
-                                        echo '<option value="">無可用選項</option>';
-                                    }
-                                ?>
-                            </select>
-                            <!-- Close the div for form group -->
-                        <?php
-                                } catch (PDOException $e) {
-                                    // 捕捉 PDO 異常並顯示錯誤訊息
-                                    echo "資料庫連接錯誤: " . $e->getMessage();
-                                    exit();
-                                }
-                        ?>
-                        </div>
-                        <!-- 下拉式選單: 拉行政區域 -->
-                        <div class="mb-3">
-                            <label for="area_id" class="form-label">行政區域</label>
-                            <select name="area_id" id="area_id" class="form-select" aria-label="Default select example">
-                                <option selected value="">--請選擇--</option>
-                                <?php
-                                try {
-                                    // 檢查查詢是否返回結果
-                                    if ($result_area->rowCount() > 0) {
-                                        // 輸出每一行資料
-                                        while ($row_area = $result_area->fetch(PDO::FETCH_ASSOC)) {
-                                            echo '<option value="' . $row_area['area_id'] . '">' . htmlspecialchars($row_area['name']) . '</option>';
-                                        }
-                                    } else {
-                                        // 若無資料，顯示無可用選項
-                                        echo '<option value="">無可用選項</option>';
-                                    }
-                                ?>
-                            </select>
-                            <!-- Close the div for form group -->
-                        <?php
-                                } catch (PDOException $e) {
-                                    // 捕捉 PDO 異常並顯示錯誤訊息
-                                    echo "資料庫連接錯誤: " . $e->getMessage();
-                                    exit();
-                                }
-                        ?>
-                        </div>
+            <!-- 下拉式選單: 拉運動類型 -->
+            <div class="mb-3">
+              <label for="sport_type_id" class="form-label">運動類型</label>
+              <select name="sport_type_id" id="sport_type_id" class="form-select" aria-label="Default select example">
+                <option selected value="">--請選擇--</option>
+                <?php
+                try {
+                  // 檢查查詢是否返回結果
+                  if ($result->rowCount() > 0) {
+                    // 輸出每一行資料
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                      echo '<option value="' . $row['id'] . '">' . htmlspecialchars($row['sport_name']) . '</option>';
+                    }
+                  } else {
+                    // 若無資料，顯示無可用選項
+                    echo '<option value="">無可用選項</option>';
+                  }
+                ?>
+              </select>
+              <!-- Close the div for form group -->
+            <?php
+                } catch (PDOException $e) {
+                  // 捕捉 PDO 異常並顯示錯誤訊息
+                  echo "資料庫連接錯誤: " . $e->getMessage();
+                  exit();
+                }
+            ?>
+            </div>
+            <!-- 下拉式選單: 拉行政區域 -->
+            <div class="mb-3">
+              <label for="area_id" class="form-label">行政區域</label>
+              <select name="area_id" id="area_id" class="form-select" aria-label="Default select example">
+                <option selected value="">--請選擇--</option>
+                <?php
+                try {
+                  // 檢查查詢是否返回結果
+                  if ($result_area->rowCount() > 0) {
+                    // 輸出每一行資料
+                    while ($row_area = $result_area->fetch(PDO::FETCH_ASSOC)) {
+                      echo '<option value="' . $row_area['area_id'] . '">' . htmlspecialchars($row_area['name']) . '</option>';
+                    }
+                  } else {
+                    // 若無資料，顯示無可用選項
+                    echo '<option value="">無可用選項</option>';
+                  }
+                ?>
+              </select>
+              <!-- Close the div for form group -->
+            <?php
+                } catch (PDOException $e) {
+                  // 捕捉 PDO 異常並顯示錯誤訊息
+                  echo "資料庫連接錯誤: " . $e->getMessage();
+                  exit();
+                }
+            ?>
+            </div>
             <div class="mb-3">
               <label for="address" class="form-label">地點名稱</label>
               <input type="text" class="form-control" id="address" name="address"
-              value="<?php echo htmlspecialchars($address); ?>">
+                value="<?php echo htmlspecialchars($address); ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -179,7 +178,7 @@ if (empty($r)) {
             <div class="mb-3">
               <label for="founder_id" class="form-label">開團者</label>
               <input type="text" class="form-control" id="founder_id" name="founder_id"
-                value="<?php echo htmlspecialchars($founder_name); ?>">
+              disabled value="<?php echo htmlspecialchars($founder_name); ?>">
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">修改</button>
@@ -230,8 +229,9 @@ if (empty($r)) {
     }
 
     if (isPass) {
-      const fd = new FormData(document.forms[0]);
-
+      const fd = new FormData(document.forms[1]);
+      console.log(document.forms[1]);
+      
       fetch(`edit-api.php`, {
           method: 'POST',
           body: fd
@@ -243,7 +243,7 @@ if (empty($r)) {
           }
           if (obj.success) {
             myModal.show(); // 呈現 modal
-          }else{
+          } else {
             alert('資料沒有修改')
           }
 

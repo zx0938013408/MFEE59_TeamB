@@ -49,3 +49,24 @@ $output['success'] = true;
 
 
 echo json_encode($output, JSON_UNESCAPED_UNICODE);
+
+
+$admin_id = $_SESSION['admin']['id'];  // 獲取已登入管理員ID
+$ip_address = $_SERVER['REMOTE_ADDR'];  // 獲取用戶IP地址
+
+$log_sql = "INSERT INTO admin_login_logs 
+(adminer_id, 
+ip_address) VALUES 
+(?, ?)";
+$log_stmt = $pdo->prepare($log_sql);
+
+$log_stmt->execute([$admin_id, $ip_address]);
+
+if ($log_stmt->rowCount()) {
+    $log_message = "登入日誌記錄成功";
+} else {
+    $log_message = "登入日誌記錄失敗";
+}
+
+$output['success'] = true;
+$output['logMessage'] = $log_message;  // 添加日誌消息到輸出
